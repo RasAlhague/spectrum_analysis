@@ -328,7 +328,7 @@ class CurvesDataClass {
 			$this->file_name = "data/ez430.log"; // Имя log-файла
 			$this->time_const = 1.1; // Постоянный множитель времени для расчета полного времени анализа
 			$this->dots = 200; // Количество точек дискретизации по оси частот (счет начинается с 0)
-			$this->steps_number = 40; // Количество точек и расстояние между вертикальными осями по оси частот
+			$this->steps_number = 10; // Количество точек и расстояние между вертикальными осями по оси частот
 
 			$this->frequency_labels = array('2433',
 			'2433.2', '2433.4', '2433.6', '2433.8', '2434', '2434.2', '2434.4', '2434.6', '2434.8', '2435',
@@ -518,7 +518,7 @@ class CurvesDataClass {
 			}
 			break;
 			
-		case 5:
+		/*case 5:
 			while (!feof($handle)) {
 				$buffer = fgets($handle, 1400);
 				
@@ -535,6 +535,15 @@ class CurvesDataClass {
 					
 					array_push($all_temp, $frequency); 
 				}
+			}
+			break;/**/
+			
+		case 5:
+			while (!feof($handle)) {
+			
+				$buffer = fgets($handle, 1400);
+				$frequency = explode(" ", $buffer);
+				array_push($all_temp, $frequency);
 			}
 			break;
 		}
