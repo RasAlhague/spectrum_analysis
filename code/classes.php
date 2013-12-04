@@ -542,16 +542,6 @@ class CurvesDataClass {
 				}
 			}
 			break;/**/
-		/*	
-		case 5:
-			while (!feof($handle)) {
-			
-				$buffer = fgets($handle, 1400);
-				$frequency = explode(" ", $buffer);
-				array_push($all_temp, $frequency);
-			}
-			break;
-			/**/
 		}
 		// Закрытие log-файла
 		fclose($handle);
