@@ -63,7 +63,8 @@
 						<option <?php echo $_POST['device_type'] == '2' ? 'selected' : ''; ?> value="2">Wi-Spy 2.4x (500)</option>
 						<option <?php echo $_POST['device_type'] == '3' ? 'selected' : ''; ?> value="3">Wi-Spy 2.4x (50)</option>
 						<option <?php echo $_POST['device_type'] == '4' ? 'selected' : ''; ?> value="4">CYWUSB6935</option>
-						<option <?php echo $_POST['device_type'] == '5' ? 'selected' : ''; ?> value="5">eZ430-RF2500</option>
+						<option <?php echo $_POST['device_type'] == '5' ? 'selected' : ''; ?> value="5">eZ430-RF2500 (25.390625 kHz)</option>
+						<option <?php echo $_POST['device_type'] == '6' ? 'selected' : ''; ?> value="6">eZ430-RF2500 (405.456543 kHz)</option>
 					</select>
 				</td>
 				<td width="20px">
@@ -242,7 +243,8 @@
 						<option value="2">Wi-Spy 2.4x (500)</option>
 						<option value="3">Wi-Spy 2.4x (50)</option>
 						<option value="4">CYWUSB6935</option>
-						<option value="5">eZ430-RF2500</option>
+						<option value="5">eZ430-RF2500 (25.390625 kHz)</option>
+						<option value="6">eZ430-RF2500 (405.456543 kHz)</option>
 					</select>
 				</td>
 				<td width="20px">

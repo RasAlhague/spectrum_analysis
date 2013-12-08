@@ -393,25 +393,29 @@ class CurvesDataClass {
 			
 			case 5:
 			// Дополнительные константы и настройки для анализатора спектра на модуле eZ430-RF2500
-			$this->device_name = 'eZ430-RF2500 (Chipcon CC2500)'; // Название устройства
-			$this->file_name = "data/ez430.log"; // Имя log-файла
+			$this->device_name = 'eZ430-RF2500 (Chipcon CC2500) (25.390625 kHz)'; // Название устройства
+			$this->file_name = "data/ez430.25kHz.log"; // Имя log-файла
 			$this->time_const = 1.1; // Постоянный множитель времени для расчета полного времени анализа
-			$this->dots = 2040; // Количество точек дискретизации по оси частот (счет начинается с 0)
-			$this->steps_number = 100; // Количество точек и расстояние между вертикальными осями по оси частот
+			$this->dots = 3340; // Количество точек дискретизации по оси частот (счет начинается с 0)
+			$this->steps_number = 200; // Количество точек и расстояние между вертикальными осями по оси частот
 
 			
 			$Spacing = 0.025390625;	//Hz
-			
+			//$Spacing = 0.326904297;	//Hz
 			$initialFrequency = 2400.0;
-			$upperFrequency = $initialFrequency + ( $this->dots * $Spacing );
+			$upperFrequency = 2485;//$initialFrequency + ( $this->dots * $Spacing ); // можно и 2500 поставить, все равно больше чем точек не покажет
+			
+			//вычисляю количество точек
+			$this->dots = ($upperFrequency - $initialFrequency) / $Spacing;
+			
 			$nextFreqValue = $initialFrequency;
 			$bufferFreqLabelsArray = array();
 			
 			while( $nextFreqValue < $upperFrequency )
 			{
 				$nextFreqValue = $nextFreqValue + $Spacing;
-				$nextFreqValue = round($nextFreqValue, 3);
-				array_push($bufferFreqLabelsArray, "$nextFreqValue");
+				$freqValueForOut = round($nextFreqValue, 1);
+				array_push($bufferFreqLabelsArray, "$freqValueForOut");
 			}
 			
 			$this->frequency_labels = $bufferFreqLabelsArray;
@@ -624,6 +628,37 @@ class CurvesDataClass {
 '2450,775', '2450,8', '2450,825', '2450,85', '2450,875', '2450,9', '2450,925', '2450,95', '2450,975', '2451');/**/
 			break;/**/
 			
+			case 6:
+			// Дополнительные константы и настройки для анализатора спектра на модуле eZ430-RF2500
+			$this->device_name = 'eZ430-RF2500 (Chipcon CC2500) (405.456543 kHz)'; // Название устройства
+			$this->file_name = "data/ez430.405kHz.log"; // Имя log-файла
+			$this->time_const = 1.1; // Постоянный множитель времени для расчета полного времени анализа
+			$this->dots = 205; // Количество точек дискретизации по оси частот (счет начинается с 0)
+			$this->steps_number = 10; // Количество точек и расстояние между вертикальными осями по оси частот
+
+			
+			//$Spacing = 0.025390625;	//Hz
+			$Spacing = 0.405456543;	//Hz
+			$initialFrequency = 2400.0;
+			$upperFrequency = 2485;//$initialFrequency + ( $this->dots * $Spacing ); // можно и 2500 поставить, все равно больше чем точек не покажет
+			
+			//вычисляю количество точек
+			$this->dots = ($upperFrequency - $initialFrequency) / $Spacing;
+			
+			$nextFreqValue = $initialFrequency;
+			$bufferFreqLabelsArray = array();
+			
+			while( $nextFreqValue < $upperFrequency )
+			{
+				$nextFreqValue = $nextFreqValue + $Spacing;
+				$freqValueForOut = round($nextFreqValue, 1);
+				array_push($bufferFreqLabelsArray, "$freqValueForOut");
+			}
+			
+			$this->frequency_labels = $bufferFreqLabelsArray;
+			
+			break;/**/
+			
 		default:
 			echo 'Device type error. ';
 		}
@@ -753,6 +788,31 @@ class CurvesDataClass {
 			break;
 			
 		case 5:
+			while (!feof($handle)) {
+				$buffer = fgets($handle);
+				
+				// Разбор строки с выделением значений мощности
+				$str_first = 'frame: [';
+				$str_last = ',] :';
+				
+				$pos1 = stripos($buffer, $str_first);
+				$pos2 = strripos($buffer, $str_last);
+				
+				if (!$pos1 === false and !$pos2 === false) {
+					$srt = substr($buffer, $pos1 + 8, $pos2 - $pos1 - 8);
+					$frequency = explode(",", $srt);
+					
+					array_push($all_temp, $frequency); 
+				}
+				else
+				{
+					$frequency = explode(" ", $buffer);
+					array_push($all_temp, $frequency);
+				}
+			}
+			break;/**/
+			
+			case 6:
 			while (!feof($handle)) {
 				$buffer = fgets($handle);
 				
